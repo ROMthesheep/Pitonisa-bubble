@@ -11,6 +11,8 @@ public class Bubble : MonoBehaviour
     Renderer rend, videoRend;
 
     [SerializeField]
+    AnimationCurve distortionScale;
+    [SerializeField]
     float sizeStep = .5f;
 
     private void Start()
@@ -18,7 +20,7 @@ public class Bubble : MonoBehaviour
         splineTarget = FindObjectOfType<CursorDetector>();
         cursor = FindObjectOfType<MouseFollower>();
         rend = GetComponent<MeshRenderer>();
-        videoRend = gameObject.GetComponentInChildren<MeshRenderer>();
+        videoRend = gameObject.transform.GetChild(0).GetComponent<MeshRenderer>();
     }
 
     private void Update()
@@ -29,14 +31,14 @@ public class Bubble : MonoBehaviour
         {
             size += sizeStep;
             rend.material.SetFloat("_distortAmount", 10f);
-            videoRend.material.SetFloat("_distortionScale", 10f);
+            videoRend.material.SetFloat("_distortionScale", distortionScale.Evaluate(1));
             timeCounter = 0;
         }
         else if (timeCounter > .05f)
         {
             size -= sizeStep;
             rend.material.SetFloat("_distortAmount", 2f);
-            videoRend.material.SetFloat("_distortionScale", 1f);
+            videoRend.material.SetFloat("_distortionScale", distortionScale.Evaluate(5));
             timeCounter = 0;
         }
 

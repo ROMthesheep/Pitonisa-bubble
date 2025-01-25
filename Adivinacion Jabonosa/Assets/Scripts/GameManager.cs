@@ -1,6 +1,7 @@
 using PixelCrushers.DialogueSystem;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -19,20 +20,20 @@ public class GameManager : MonoBehaviour
 
     private GameObject Menu;
 
-    private int[] flujoPersonajes;
+    private List<int> flujoPersonajes;
 
     private int score;
+
+    private void Awake()
+    {
+        flujoPersonajes = new List<int> { 1, 1 };
+
+        score = 0;
+    }
 
     private void Start()
     {
         videoPlayer = bubble.GetComponentInChildren<VideoPlayer>();
-
-        flujoPersonajes = new int [2];
-        flujoPersonajes[0] = 1;
-        flujoPersonajes[1] = 1;
-
-        score = 0;
-
     }
 
     public void ChangeGameState(GameState newGameState)
@@ -71,11 +72,13 @@ public class GameManager : MonoBehaviour
 
         Menu.gameObject.GetComponent<RawImage>().enabled = false;
 
+        Debug.Log(flujoPersonajes);
         SiguienteDialogo();
     }
 
     public void SiguienteDialogo()
     {
+        Debug.Log("Actor" + flujoPersonajes[0] + "_" + flujoPersonajes[1]);
         DialogueManager.StartConversation("Actor" + flujoPersonajes[0] + "_" + flujoPersonajes[1]);
     }
 

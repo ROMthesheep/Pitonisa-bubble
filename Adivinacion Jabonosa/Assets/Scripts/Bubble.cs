@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
-    int size = 50;
+    float size = 50;
     CursorDetector splineTarget;
     MouseFollower cursor;
     float timeCounter = 0;
+    [SerializeField]
+    float sizeStep = .5f;
 
     private void Start()
     {
@@ -19,14 +21,14 @@ public class Bubble : MonoBehaviour
     {
         timeCounter += Time.deltaTime;
 
-        if(splineTarget.SplineIsPlaying() && cursor.distanceToTarget < 1 && timeCounter > .2f)
+        if(splineTarget.SplineIsPlaying() && cursor.distanceToTarget < 1 && timeCounter > .05f)
         {
-            size++;
+            size += sizeStep;
             timeCounter = 0;
         }
-        else if(timeCounter > .2f)
+        else if(timeCounter > .05f)
         {
-            size--;
+            size -= sizeStep;
             timeCounter = 0;
         }
 

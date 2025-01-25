@@ -3,17 +3,21 @@ using UnityEngine.Splines;
 
 public class CursorDetector : MonoBehaviour
 {
-    
-
-    private void Start() {
-        
+    private void Update()
+    {
+        if (!SplineIsPlaying())
+        {
+            FindAnyObjectByType<MouseFollower>().StopFollowing();
+        }
     }
 
-    private void StartPathing() {
-        GetComponent<SplineAnimate>().Play();
+    private bool SplineIsPlaying()
+    {
+        return gameObject.GetComponent<SplineAnimate>().IsPlaying;
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other) {        
+        FindAnyObjectByType<MouseFollower>().StartFollowing();
         gameObject.GetComponent<SplineAnimate>().Play();
     }
 }

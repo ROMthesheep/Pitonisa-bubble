@@ -23,7 +23,6 @@ public class MouseFollower : MonoBehaviour
         if (isFollowing)
         {
             distanceToTarget = (transform.position - target.transform.position).magnitude;
-            Debug.Log(distanceToTarget);
         }
     }
 

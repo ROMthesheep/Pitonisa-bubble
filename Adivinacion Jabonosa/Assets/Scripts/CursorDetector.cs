@@ -11,7 +11,7 @@ public class CursorDetector : MonoBehaviour
         }
     }
 
-    private bool SplineIsPlaying()
+    public bool SplineIsPlaying()
     {
         return gameObject.GetComponent<SplineAnimate>().IsPlaying;
     }

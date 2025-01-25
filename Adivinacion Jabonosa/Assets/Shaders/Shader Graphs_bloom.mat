@@ -53,8 +53,8 @@ Material:
     - _BUILTIN_QueueOffset: 0
     - _IsDistorted: 1
     - _bloomAmount: 1.15
-    - _distortScale: 0.027
-    - _distortionScale: 8.3
+    - _distortScale: 0.128
+    - _distortionScale: 1.8
     - _isBloomed: 1
     - _ismasked: 1
     m_Colors:

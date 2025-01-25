@@ -8,13 +8,13 @@ using UnityEngine.Video;
 
 public class GameManager : MonoBehaviour
 {
-    private GameState gameState = GameState.Menu;
-
     public GameObject bubble;
+
+    public static event Action<GameState> OnGameStateChanged;
 
     private VideoPlayer videoPlayer;
 
-    public static event Action<GameState> OnGameStateChanged;
+    private GameState gameState = GameState.Menu;
 
     private IEnumerator FadeMenuCoroutine;
 
@@ -24,11 +24,30 @@ public class GameManager : MonoBehaviour
 
     private int score;
 
+    // Spawner logic
+    public GameObject[] hexes;
+    public Vector3 spawnPoint;
+
+    private bool isHexing;
+    private float hexCD;
+    private GameObject currentWalker;
+
+    [Header("Visions")]
+    public VideoClip[] actor1Visions;
+    public VideoClip[] actor2Visions;
+    public VideoClip[] actor3Visions;
+    public VideoClip[] actor4Visions;
+    public VideoClip[] actor5Visions;
+
     private void Awake()
     {
-        flujoPersonajes = new List<int> { 1, 1 };
+        flujoPersonajes = new List<int> { 1, 0 };
 
         score = 0;
+
+        isHexing = false;
+
+        hexCD = 2.0f;
     }
 
     private void Start()
@@ -36,8 +55,15 @@ public class GameManager : MonoBehaviour
         videoPlayer = bubble.GetComponentInChildren<VideoPlayer>();
     }
 
+    private void Update()
+    {
+        Debug.Log(hexCD);
+        startSpawnPocess();
+    }
+
     public void ChangeGameState(GameState newGameState)
     {
+        Debug.Log("Se ha cambiado el estado de juego a " + newGameState);
         OnGameStateChanged?.Invoke(newGameState);
 
         gameState = newGameState;
@@ -76,23 +102,82 @@ public class GameManager : MonoBehaviour
         SiguienteDialogo();
     }
 
+    private void startSpawnPocess()
+    {
+        if (!isHexing && gameState == GameState.Gameplay)
+        {
+            if (hexCD <= 0)
+            {
+                SpawnHex(UnityEngine.Random.Range(0, hexes.Length));
+                isHexing = true;
+                hexCD = 2.0f;
+            } else
+            {
+                hexCD -= Time.deltaTime;
+            }
+            
+        }
+    }
+
+    private void SpawnHex(int hexIndex)
+    {
+        GameObject newHex = Instantiate(hexes[hexIndex], new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+
+        newHex.transform.Rotate(90.0f, -0f, 0.0f);
+
+        newHex.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+
+        newHex.transform.position = spawnPoint;
+    }
+
     public void SiguienteDialogo()
     {
-        Debug.Log("Actor" + flujoPersonajes[0] + "_" + flujoPersonajes[1]);
         DialogueManager.StartConversation("Actor" + flujoPersonajes[0] + "_" + flujoPersonajes[1]);
     }
 
     public void Gameplay()
     {
-        videoPlayer.clip = (VideoClip)Resources.Load("Metraje/" + flujoPersonajes[0] + "_" + flujoPersonajes[1]);
+        ManageBuble();
 
+        ChangeGameState(GameState.Gameplay);
         //Comienza el spawner
 
         //Aparece la burbuja
     }
 
+    private void ManageBuble()
+    {
+        bubble.SetActive(true);
+        setVision();
+        videoPlayer.Play();
+    }
+
+    private void setVision()
+    {
+        switch (flujoPersonajes[0])
+        {
+            case 1:
+                videoPlayer.clip = actor1Visions[flujoPersonajes[1]];
+                break;
+            case 2:
+                videoPlayer.clip = actor2Visions[flujoPersonajes[1]];
+                break;
+            case 3:
+                videoPlayer.clip = actor3Visions[flujoPersonajes[1]];
+                break;
+            case 4:
+                videoPlayer.clip = actor4Visions[flujoPersonajes[1]];
+                break;
+            case 5:
+                videoPlayer.clip = actor5Visions[flujoPersonajes[1]];
+                break;
+        }
+    }
+
     public void EndGameplay()
     {
+        bubble.SetActive(false);
+
         SiguientePaso();
 
         SiguienteDialogo();

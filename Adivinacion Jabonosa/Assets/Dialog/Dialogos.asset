@@ -298,7 +298,7 @@ MonoBehaviour:
       - originConversationID: 1
         originDialogueID: 0
         destinationConversationID: 1
-        destinationDialogueID: 12
+        destinationDialogueID: 14
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -371,8 +371,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 233.01999
-        y: 85.43935
+        x: 362.68103
+        y: 148.15121
         width: 160
         height: 30
     - id: 13
@@ -408,7 +408,66 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: EventGuid
-        value: eb07feaf-5e4f-4cd7-b5bb-94cafe06fb0f
+        value: 
+        type: 0
+        typeString: 
+      conversationID: 1
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: Block
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 1
+        originDialogueID: 13
+        destinationConversationID: 1
+        destinationDialogueID: 14
+        isConnector: 0
+        priority: 2
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 362.68103
+        y: 198.15121
+        width: 160
+        height: 30
+    - id: 14
+      fields:
+      - title: Title
+        value: 
+        type: 0
+        typeString: 
+      - title: Description
+        value: 
+        type: 0
+        typeString: 
+      - title: Actor
+        value: 2
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: 
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      - title: EventGuid
+        value: c4a22c0a-e2a9-4d89-bbac-bd4a72152ef8
         type: 0
         typeString: 
       conversationID: 1
@@ -426,13 +485,13 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 233.01999
-        y: 135.43935
+        x: 362.68103
+        y: 248.15121
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 0, y: 0}
-    canvasZoom: 1.18
+    canvasScrollPosition: {x: 32.031166, y: 17.431198}
+    canvasZoom: 1.09
   - id: 2
     fields:
     - title: Title

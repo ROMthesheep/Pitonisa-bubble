@@ -8,6 +8,10 @@ public class Bubble : MonoBehaviour
     CursorDetector splineTarget;
     MouseFollower cursor;
     float timeCounter = 0;
+    Renderer rend, videoRend;
+
+    [SerializeField]
+    AnimationCurve distortionScale;
     [SerializeField]
     float sizeStep = .5f;
 
@@ -15,28 +19,39 @@ public class Bubble : MonoBehaviour
     {
         splineTarget = FindObjectOfType<CursorDetector>();
         cursor = FindObjectOfType<MouseFollower>();
+        rend = GetComponent<MeshRenderer>();
+        videoRend = gameObject.transform.GetChild(0).GetComponent<MeshRenderer>();
     }
 
     private void Update()
     {
         timeCounter += Time.deltaTime;
 
-        if(splineTarget.SplineIsPlaying() && cursor.distanceToTarget < 1 && timeCounter > .05f)
+        if (CursorIsFollowingTheTarget() && timeCounter > .05f)
         {
             size += sizeStep;
+            rend.material.SetFloat("_distortAmount", 10f);
+            videoRend.material.SetFloat("_distortionScale", distortionScale.Evaluate(1));
             timeCounter = 0;
         }
-        else if(timeCounter > .05f)
+        else if (timeCounter > .05f)
         {
             size -= sizeStep;
+            rend.material.SetFloat("_distortAmount", 2f);
+            videoRend.material.SetFloat("_distortionScale", distortionScale.Evaluate(5));
             timeCounter = 0;
         }
 
         gameObject.transform.localScale = new Vector3(size / 10f, size / 10f, size / 10f);
 
-        if(size > 100)
+        if (size > 100)
         {
             size = 100;
         }
+    }
+
+    private bool CursorIsFollowingTheTarget()
+    {
+        return splineTarget.SplineIsPlaying() && cursor.distanceToTarget < 1;
     }
 }

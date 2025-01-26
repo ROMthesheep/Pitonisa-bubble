@@ -5,9 +5,12 @@ public class CursorDetector : MonoBehaviour
 {
     private void Update()
     {
-        if (!SplineIsPlaying())
+        if (!SplineIsPlaying()&& gameObject.GetComponent<SplineAnimate>().ElapsedTime > 0)
         {
             FindAnyObjectByType<MouseFollower>().StopFollowing();
+            FindAnyObjectByType<GameManager>().ChangeGameState(GameState.Dialogo);
+            FindAnyObjectByType<GameManager>().EndGameplay();
+            GameObject.Destroy(gameObject.transform.parent.gameObject);
         }
     }
 

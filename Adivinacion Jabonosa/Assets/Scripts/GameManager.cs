@@ -9,6 +9,7 @@ using UnityEngine.Video;
 public class GameManager : MonoBehaviour
 {
     public GameObject bubble;
+    public GameObject cursor;
 
     public static event Action<GameState> OnGameStateChanged;
 
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        flujoPersonajes = new List<int> { 1, 0 };
+        flujoPersonajes = new List<int> { 1, 1 };
 
         score = 0;
 
@@ -57,8 +58,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(hexCD);
-        startSpawnPocess();
+        //startSpawnPocess();
     }
 
     public void ChangeGameState(GameState newGameState)
@@ -97,8 +97,7 @@ public class GameManager : MonoBehaviour
         }
 
         Menu.gameObject.GetComponent<RawImage>().enabled = false;
-
-        Debug.Log(flujoPersonajes);
+        
         SiguienteDialogo();
     }
 
@@ -121,13 +120,15 @@ public class GameManager : MonoBehaviour
 
     private void SpawnHex(int hexIndex)
     {
-        GameObject newHex = Instantiate(hexes[hexIndex], new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+        GameObject newHex = Instantiate(hexes[hexIndex], spawnPoint, Quaternion.identity);
+
+        GameObject.FindObjectOfType<MouseFollower>().SetTarget(GameObject.FindGameObjectWithTag("Walker"));
 
         newHex.transform.Rotate(90.0f, -0f, 0.0f);
 
-        newHex.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        newHex.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
-        newHex.transform.position = spawnPoint;
+        bubble.GetComponent<Bubble>().reset();
     }
 
     public void SiguienteDialogo()
@@ -138,11 +139,11 @@ public class GameManager : MonoBehaviour
     public void Gameplay()
     {
         ManageBuble();
-
+        cursor.SetActive(true);
+        // Cursor.visible = false;
+        SpawnHex(UnityEngine.Random.Range(0, hexes.Length));
         ChangeGameState(GameState.Gameplay);
-        //Comienza el spawner
-
-        //Aparece la burbuja
+        DialogueManager.StopConversation();
     }
 
     private void ManageBuble()
@@ -157,19 +158,19 @@ public class GameManager : MonoBehaviour
         switch (flujoPersonajes[0])
         {
             case 1:
-                videoPlayer.clip = actor1Visions[flujoPersonajes[1]];
+                videoPlayer.clip = actor1Visions[flujoPersonajes[1] - 1];
                 break;
             case 2:
-                videoPlayer.clip = actor2Visions[flujoPersonajes[1]];
+                videoPlayer.clip = actor2Visions[flujoPersonajes[1] - 1];
                 break;
             case 3:
-                videoPlayer.clip = actor3Visions[flujoPersonajes[1]];
+                videoPlayer.clip = actor3Visions[flujoPersonajes[1] - 1];
                 break;
             case 4:
-                videoPlayer.clip = actor4Visions[flujoPersonajes[1]];
+                videoPlayer.clip = actor4Visions[flujoPersonajes[1] - 1];
                 break;
             case 5:
-                videoPlayer.clip = actor5Visions[flujoPersonajes[1]];
+                videoPlayer.clip = actor5Visions[flujoPersonajes[1] - 1];
                 break;
         }
     }
@@ -177,6 +178,8 @@ public class GameManager : MonoBehaviour
     public void EndGameplay()
     {
         bubble.SetActive(false);
+        cursor.SetActive(false);
+        Cursor.visible = true;
 
         SiguientePaso();
 

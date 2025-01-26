@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
-    float size = 50;
+    float size = 15;
     CursorDetector splineTarget;
     MouseFollower cursor;
     float timeCounter = 0;
@@ -14,6 +14,12 @@ public class Bubble : MonoBehaviour
     AnimationCurve distortionScale;
     [SerializeField]
     float sizeStep = .5f;
+
+
+    private float bubbleDistorsionAmount = 0f;
+    private float bubbleDistorsionScale = 0f;
+    private float videoDistorsionAmount = 0f;
+    private float videoDistorsionScale = 0f;
 
     private void Start()
     {
@@ -40,14 +46,35 @@ public class Bubble : MonoBehaviour
             rend.material.SetFloat("_distortAmount", 2f);
             videoRend.material.SetFloat("_distortionScale", distortionScale.Evaluate(5));
             timeCounter = 0;
+        }   
+
+        if (size > 25)
+        {
+            size = 25;
         }
 
         gameObject.transform.localScale = new Vector3(size / 10f, size / 10f, size / 10f);
+    }
 
-        if (size > 100)
-        {
-            size = 100;
-        }
+    //private void Update()
+    //{
+    //    timeCounter += Time.deltaTime;
+       
+    //}
+
+    public void reset()
+    {
+        timeCounter = 0;
+        size = 15;
+        splineTarget = FindObjectOfType<CursorDetector>();
+    }
+
+    private void updateBubble()
+    {
+
+
+        rend.material.SetFloat("_distortAmount", bubbleDistorsionAmount);
+        videoRend.material.SetFloat("_distortionScale", videoDistorsionScale);
     }
 
     private bool CursorIsFollowingTheTarget()

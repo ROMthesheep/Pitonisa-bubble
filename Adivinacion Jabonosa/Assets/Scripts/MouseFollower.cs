@@ -11,8 +11,7 @@ public class MouseFollower : MonoBehaviour
 
     bool isFollowing = false;
     public float distanceToTarget { get; private set; }
-    [SerializeField]
-    GameObject target;
+    private GameObject target;
 
     void Update()
     {
@@ -34,5 +33,10 @@ public class MouseFollower : MonoBehaviour
     public void StopFollowing()
     {
         isFollowing = false;
+    }
+
+    public void SetTarget(GameObject target)
+    {
+        this.target = target;
     }
 }

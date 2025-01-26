@@ -268,7 +268,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 64e872764b501f94995755fe7193692d, type: 2}
+  - {fileID: 2100000, guid: e2fc00cb543e9574eaa6351f1fb37110, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -469,11 +469,11 @@ MonoBehaviour:
   m_PlayOnAwake: 0
   m_LoopMode: 0
   m_Method: 1
-  m_Duration: 2.4165163
-  m_MaxSpeed: 15
+  m_Duration: 7.249549
+  m_MaxSpeed: 5
   m_EasingMode: 0
   m_AlignmentMode: 1
-  m_ObjectForwardAxis: 1
+  m_ObjectForwardAxis: 0
   m_ObjectUpAxis: 5
   m_StartOffset: 0
 --- !u!114 &4309795721766696360

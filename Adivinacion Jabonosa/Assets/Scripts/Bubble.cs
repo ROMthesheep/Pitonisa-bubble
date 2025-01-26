@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,14 +12,14 @@ public class Bubble : MonoBehaviour
     Renderer rend, videoRend;
 
     [SerializeField]
-    AnimationCurve distortionScale;
-    [SerializeField]
     float sizeStep = .5f;
 
 
     private float bubbleDistorsionAmount = 0f;
-    private float bubbleDistorsionScale = 0f;
-    private float videoDistorsionAmount = 0f;
+    [Range(0.0f, 0.5f)]
+    public float bubbleDistorsionK = 0f;
+    [Range(0.0f, 0.5f)]
+    public float videoDistorsionK = 0f;
     private float videoDistorsionScale = 0f;
 
     private void Start()
@@ -36,30 +37,31 @@ public class Bubble : MonoBehaviour
         if (CursorIsFollowingTheTarget() && timeCounter > .05f)
         {
             size += sizeStep;
-            rend.material.SetFloat("_distortAmount", 10f);
-            videoRend.material.SetFloat("_distortionScale", distortionScale.Evaluate(1));
             timeCounter = 0;
         }
         else if (timeCounter > .05f)
         {
             size -= sizeStep;
-            rend.material.SetFloat("_distortAmount", 2f);
-            videoRend.material.SetFloat("_distortionScale", distortionScale.Evaluate(5));
             timeCounter = 0;
-        }   
-
-        if (size > 25)
-        {
-            size = 25;
         }
 
-        gameObject.transform.localScale = new Vector3(size / 10f, size / 10f, size / 10f);
+
+        size = Math.Clamp(size, 3, 25);
+        float newBubbleDistorsion = Mathf.Lerp(rend.material.GetFloat("_distortAmount"), size * bubbleDistorsionK, sizeStep);
+        float newVideoDistorsion = Mathf.Lerp(videoRend.material.GetFloat("_distortScale"), size * videoDistorsionK * 0.01f, sizeStep);
+
+        Debug.Log("BuBbledistortAmount" + newBubbleDistorsion);
+        Debug.Log("VideodistortAmount" + newVideoDistorsion);
+        rend.material.SetFloat("_distortAmount", newBubbleDistorsion);
+        videoRend.material.SetFloat("_distortScale", newVideoDistorsion);
+
+        gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, new Vector3(size / 10f, size / 10f, size / 10f), sizeStep);
     }
 
     //private void Update()
     //{
     //    timeCounter += Time.deltaTime;
-       
+
     //}
 
     public void reset()

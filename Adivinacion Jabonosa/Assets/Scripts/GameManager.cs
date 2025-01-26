@@ -196,6 +196,11 @@ public class GameManager : MonoBehaviour
     {
         flujoPersonajes = new List<int> { 1, 1 };
 
+        score = 0;
+
+        npcs[4].SetActive(false);
+        npcs[0].SetActive(true);
+
         Menu = GameObject.FindGameObjectWithTag("Menu");
         Menu.gameObject.GetComponent<RawImage>().enabled = true;
         MenuPlayButton.SetActive(true);
@@ -223,7 +228,6 @@ public class GameManager : MonoBehaviour
         if(flujoPersonajes[0] >= 5)
         {
             ChangeGameState(GameState.Final);
-            Final();
         }
         else
         {
@@ -237,7 +241,6 @@ public class GameManager : MonoBehaviour
         if (flujoPersonajes[0] >= 5)
         {
             ChangeGameState(GameState.Final);
-            Final();
         }
         else
         {
@@ -273,8 +276,20 @@ public class GameManager : MonoBehaviour
                 videoPlayer.clip = actor5Visions[flujoPersonajes[1] - 1];
                 break;
         }
+        
+
+        //videoPlayer.Prepare();
+        //Debug.LogError(videoPlayer.clip.ToString());
+        
+        //Invoke("PlayVid", .5f);
     }
 
+    void PlayVid()
+    {
+        if (!videoPlayer.isPrepared)
+            Debug.LogError("Video not prepared");
+        videoPlayer.Play();
+    }
     public void EndGameplay()
     {
         audioManager.PlayDialogueMusic();

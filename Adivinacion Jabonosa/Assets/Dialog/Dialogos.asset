@@ -463,7 +463,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Sequence
-        value: Continue()
+        value: 
         type: 0
         typeString: 
       - title: EventGuid
@@ -6379,7 +6379,66 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: EventGuid
-        value: a0d8198b-c22c-450d-acfd-97894df3c313
+        value: 
+        type: 0
+        typeString: 
+      conversationID: 16
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: Block
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 16
+        originDialogueID: 6
+        destinationConversationID: 16
+        destinationDialogueID: 7
+        isConnector: 0
+        priority: 2
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 435
+        y: 218
+        width: 160
+        height: 30
+    - id: 7
+      fields:
+      - title: Title
+        value: 
+        type: 0
+        typeString: 
+      - title: Description
+        value: 
+        type: 0
+        typeString: 
+      - title: Actor
+        value: 5
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: ...
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      - title: EventGuid
+        value: dcf9ef47-4ce3-484c-bdfb-cf0a55f19a18
         type: 0
         typeString: 
       conversationID: 16
@@ -6398,7 +6457,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 435
-        y: 218
+        y: 268
         width: 160
         height: 30
     entryGroups: []

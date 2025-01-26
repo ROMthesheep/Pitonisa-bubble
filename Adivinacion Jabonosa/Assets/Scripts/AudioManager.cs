@@ -9,41 +9,42 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource dialogueSource;
     [SerializeField] AudioSource tensionSource;
     [SerializeField] AudioSource endSource;
-    [SerializeField] AudioSource[] bubblePop;
+    [SerializeField] AudioSource soundEffects;
+    [SerializeField] AudioClip[] bubblePop;
 
     public void PlayMenuMusic()
     {
         StopAllClips();
-        menuSource.PlayOneShot(menuSource.clip);
+        menuSource.Play();
     }
 
     public void PlayGameplayMusic()
     {
         StopAllClips();
-        gameplaySource.PlayOneShot(gameplaySource.clip);
+        gameplaySource.Play();
     }
 
     public void PlayDialogueMusic()
     {
         StopAllClips();
-        dialogueSource.PlayOneShot(dialogueSource.clip);
+        dialogueSource.Play();
     }
 
     public void PlayTensionMusic()
     {
         StopAllClips();
-        tensionSource.PlayOneShot(tensionSource.clip);
+        tensionSource.Play();
     }
     public void PlayEndMusic()
     {
         StopAllClips();
-        endSource.PlayOneShot(endSource.clip);
+        endSource.Play();
     }
 
     public void PlayBubblePop()
     {
         StopAllClips();
-        bubblePop[Random.Range(0,bubblePop.Length)].Play();
+        soundEffects.PlayOneShot(bubblePop[Random.Range(0, bubblePop.Length)]);
     }
 
     public void StopAllClips()
@@ -53,5 +54,6 @@ public class AudioManager : MonoBehaviour
         dialogueSource.Stop();
         tensionSource.Stop();
         endSource.Stop();
+        soundEffects.Stop();
     }
 }

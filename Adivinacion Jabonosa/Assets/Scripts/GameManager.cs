@@ -13,9 +13,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject Fin;
 
-    public GameObject CartaFin;
-
-    public GameObject MenuButton;
+    public GameObject MenuPlayButton;
+    public AudioManager audioManager;
 
     public static event Action<GameState> OnGameStateChanged;
 
@@ -48,6 +47,8 @@ public class GameManager : MonoBehaviour
 
 
     public GameObject[] cartas;
+
+    public GameObject[] npcs;
 
     private void Awake()
     {
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
     {
         Menu = GameObject.FindGameObjectWithTag("Menu");
 
-        MenuButton.SetActive(false);
+        MenuPlayButton.SetActive(false);
 
         FadeMenuCoroutine = FadeMenu();
 
@@ -108,6 +109,8 @@ public class GameManager : MonoBehaviour
         Menu.gameObject.GetComponent<RawImage>().enabled = false;
         
         SiguienteDialogo();
+
+        audioManager.PlayDialogueMusic();
     }
 
     private void startSpawnPocess()
@@ -147,7 +150,8 @@ public class GameManager : MonoBehaviour
 
     public void FinConversacion()
     {
-        if(gameState == GameState.Gameplay)
+        Debug.Log("FinConversacion");
+        if (gameState == GameState.Gameplay)
         {
             ManageBuble();
 
@@ -158,13 +162,19 @@ public class GameManager : MonoBehaviour
             SpawnHex(UnityEngine.Random.Range(0, hexes.Length));
 
             DialogueManager.StopConversation();
+
+            audioManager.PlayGameplayMusic();
         }
         else if(gameState == GameState.Dialogo)
         {
+            audioManager.PlayDialogueMusic();
+
             SiguienteDialogo();
         }
         else if(gameState == GameState.Final)
         {
+            audioManager.PlayEndMusic();
+
             Final();
         }
     }
@@ -176,13 +186,19 @@ public class GameManager : MonoBehaviour
         cartas[score].SetActive(true);
     }
 
+    public void CargarNPCs(int cargar)
+    {
+        npcs[cargar - 1].SetActive(false);
+        npcs[cargar].SetActive(true);
+    }
+
     public void ReiniciarButton()
     {
         flujoPersonajes = new List<int> { 1, 1 };
 
         Menu = GameObject.FindGameObjectWithTag("Menu");
         Menu.gameObject.GetComponent<RawImage>().enabled = true;
-        MenuButton.SetActive(true);
+        MenuPlayButton.SetActive(true);
         Menu.gameObject.GetComponent<RawImage>().color = new Color(Menu.gameObject.GetComponent<RawImage>().color.r,
                                                                        Menu.gameObject.GetComponent<RawImage>().color.g,
                                                                        Menu.gameObject.GetComponent<RawImage>().color.g,
@@ -204,16 +220,30 @@ public class GameManager : MonoBehaviour
     {
         score += 1;
 
-        ChangeGameState(GameState.Dialogo);
-
-        SiguientePersonaje();
+        if(flujoPersonajes[0] >= 5)
+        {
+            ChangeGameState(GameState.Final);
+            Final();
+        }
+        else
+        {
+            ChangeGameState(GameState.Dialogo);
+            SiguientePersonaje();
+        }
     }
 
     public void Failure()
     {
-        ChangeGameState(GameState.Dialogo);
-
-        SiguientePersonaje();
+        if (flujoPersonajes[0] >= 5)
+        {
+            ChangeGameState(GameState.Final);
+            Final();
+        }
+        else
+        {
+            ChangeGameState(GameState.Dialogo);
+            SiguientePersonaje();
+        }
     }
 
     private void ManageBuble()
@@ -247,6 +277,8 @@ public class GameManager : MonoBehaviour
 
     public void EndGameplay()
     {
+        audioManager.PlayDialogueMusic();
+        Debug.Log("EndGameplay");
         bubble.SetActive(false);
         cursor.SetActive(false);
         Cursor.visible = true;
@@ -260,11 +292,6 @@ public class GameManager : MonoBehaviour
     {
         flujoPersonajes[0] += 1;
         flujoPersonajes[1] = 1;
-
-        if(flujoPersonajes[0] > 5)
-        {
-            ChangeGameState(GameState.Final);
-        }
     }
 
     private void SiguientePaso()

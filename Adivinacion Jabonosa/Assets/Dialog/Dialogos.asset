@@ -298,7 +298,7 @@ MonoBehaviour:
       - originConversationID: 1
         originDialogueID: 0
         destinationConversationID: 1
-        destinationDialogueID: 12
+        destinationDialogueID: 13
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -371,8 +371,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 362.68103
-        y: 148.15121
+        x: 451.692
+        y: 134.9644
         width: 160
         height: 30
     - id: 13
@@ -490,8 +490,8 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 3.0969043, y: 49.500484}
-    canvasZoom: 0.88000023
+    canvasScrollPosition: {x: 18.244228, y: 5.244756}
+    canvasZoom: 0.9100002
   - id: 2
     fields:
     - title: Title
@@ -1951,12 +1951,16 @@ MonoBehaviour:
         value: None()
         type: 0
         typeString: 
+      - title: EventGuid
+        value: 73a554c1-ad2d-49b7-8740-b76a6ed84a01
+        type: 0
+        typeString: 
       conversationID: 5
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 5
@@ -3493,6 +3497,10 @@ MonoBehaviour:
         value: None()
         type: 0
         typeString: 
+      - title: EventGuid
+        value: fc4ffda9-3e5f-4472-941a-c3690e8761f8
+        type: 0
+        typeString: 
       conversationID: 9
       isRoot: 0
       isGroup: 0
@@ -4980,6 +4988,10 @@ MonoBehaviour:
         value: None()
         type: 0
         typeString: 
+      - title: EventGuid
+        value: d7eee0f2-a492-4b1a-ac17-e2559e1536d5
+        type: 0
+        typeString: 
       conversationID: 13
       isRoot: 0
       isGroup: 0
@@ -5001,7 +5013,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 160
+        x: 161
         y: 30
         width: 160
         height: 30
@@ -6468,12 +6480,16 @@ MonoBehaviour:
         value: None()
         type: 0
         typeString: 
+      - title: EventGuid
+        value: 6323a9c1-fd20-4f72-ac3e-e1489ed5f1f3
+        type: 0
+        typeString: 
       conversationID: 17
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 17

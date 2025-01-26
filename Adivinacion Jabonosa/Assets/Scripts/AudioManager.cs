@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource dialogueSource;
     [SerializeField] AudioSource tensionSource;
     [SerializeField] AudioSource endSource;
+    [SerializeField] AudioSource[] bubblePop;
 
     public void PlayMenuMusic()
     {
@@ -37,6 +38,12 @@ public class AudioManager : MonoBehaviour
     {
         StopAllClips();
         endSource.PlayOneShot(endSource.clip);
+    }
+
+    public void PlayBubblePop()
+    {
+        StopAllClips();
+        bubblePop[Random.Range(0,bubblePop.Length)].Play();
     }
 
     public void StopAllClips()

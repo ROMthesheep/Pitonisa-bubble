@@ -11,6 +11,12 @@ public class GameManager : MonoBehaviour
     public GameObject bubble;
     public GameObject cursor;
 
+    public GameObject Fin;
+
+    public GameObject CartaFin;
+
+    public GameObject MenuButton;
+
     public static event Action<GameState> OnGameStateChanged;
 
     private VideoPlayer videoPlayer;
@@ -39,6 +45,9 @@ public class GameManager : MonoBehaviour
     public VideoClip[] actor3Visions;
     public VideoClip[] actor4Visions;
     public VideoClip[] actor5Visions;
+
+
+    public GameObject[] cartas;
 
     private void Awake()
     {
@@ -73,7 +82,7 @@ public class GameManager : MonoBehaviour
     {
         Menu = GameObject.FindGameObjectWithTag("Menu");
 
-        Menu.GetComponentInChildren<Button>().gameObject.SetActive(false);
+        MenuButton.SetActive(false);
 
         FadeMenuCoroutine = FadeMenu();
 
@@ -136,14 +145,75 @@ public class GameManager : MonoBehaviour
         DialogueManager.StartConversation("Actor" + flujoPersonajes[0] + "_" + flujoPersonajes[1]);
     }
 
+    public void FinConversacion()
+    {
+        if(gameState == GameState.Gameplay)
+        {
+            ManageBuble();
+
+            cursor.SetActive(true);
+
+            // Cursor.visible = false;
+
+            SpawnHex(UnityEngine.Random.Range(0, hexes.Length));
+
+            DialogueManager.StopConversation();
+        }
+        else if(gameState == GameState.Dialogo)
+        {
+            SiguienteDialogo();
+        }
+        else if(gameState == GameState.Final)
+        {
+            Final();
+        }
+    }
+
+    private void Final()
+    {
+        Fin.gameObject.SetActive(true);
+
+        cartas[score].SetActive(true);
+    }
+
+    public void ReiniciarButton()
+    {
+        flujoPersonajes = new List<int> { 1, 1 };
+
+        Menu = GameObject.FindGameObjectWithTag("Menu");
+        Menu.gameObject.GetComponent<RawImage>().enabled = true;
+        MenuButton.SetActive(true);
+        Menu.gameObject.GetComponent<RawImage>().color = new Color(Menu.gameObject.GetComponent<RawImage>().color.r,
+                                                                       Menu.gameObject.GetComponent<RawImage>().color.g,
+                                                                       Menu.gameObject.GetComponent<RawImage>().color.g,
+                                                                       1.0f);
+        Fin.gameObject.SetActive(false);
+    }
+
+    public void SalirButton()
+    {
+        Application.Quit();
+    }
+
     public void Gameplay()
     {
-        ManageBuble();
-        cursor.SetActive(true);
-        // Cursor.visible = false;
-        SpawnHex(UnityEngine.Random.Range(0, hexes.Length));
         ChangeGameState(GameState.Gameplay);
-        DialogueManager.StopConversation();
+    }
+
+    public void Success()
+    {
+        score += 1;
+
+        ChangeGameState(GameState.Dialogo);
+
+        SiguientePersonaje();
+    }
+
+    public void Failure()
+    {
+        ChangeGameState(GameState.Dialogo);
+
+        SiguientePersonaje();
     }
 
     private void ManageBuble()
@@ -186,24 +256,15 @@ public class GameManager : MonoBehaviour
         SiguienteDialogo();
     }
 
-    public void Success()
-    {
-        score += 1;
-
-        SiguientePersonaje();
-
-        SiguienteDialogo();
-    }
-
-    public void Failure()
-    {
-        SiguientePersonaje();
-    }
-
     private void SiguientePersonaje()
     {
         flujoPersonajes[0] += 1;
         flujoPersonajes[1] = 1;
+
+        if(flujoPersonajes[0] > 5)
+        {
+            ChangeGameState(GameState.Final);
+        }
     }
 
     private void SiguientePaso()
